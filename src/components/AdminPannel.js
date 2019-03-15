@@ -34,7 +34,7 @@ class AdminPannel extends React.Component {
         return (
             <div className={classes.root}>
                 <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend">AdminPannel fiels to index</FormLabel>
+                    <FormLabel component="legend">Admin Panel</FormLabel>
                     <FormGroup>
                         <FormControlLabel
                             control={

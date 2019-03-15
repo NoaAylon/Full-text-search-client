@@ -25,13 +25,7 @@ export function DocumentsList(props) {
       const highlightText = body.split(" ").map(w => {
         return words.includes(w) ? <span class='high-light'>{w} </span> : <span>{w} </span>
       })
-
-      // const hightLightText = hightLightText(result.body, words);
-      // const parsedData = JSON.parse(result);
       setDocument(highlightText);
-      console.log('result==>', result);
-
-      // setDocsList(result)
     } catch (error) {
       console.log('error');
     }
@@ -41,15 +35,15 @@ export function DocumentsList(props) {
     const { docsList, } = props;
     if (docsList && docsList.docs) {
       const { docs, words } = props.docsList;
-      return docs.map(doc => <Paper key={doc.docId}>
-        <ListItem button onClick={() => onClick(doc, words)} divider item={doc}>
-          <ListItemText primary={doc.docId} secondary={doc.title} />
-        </ListItem>
-      </Paper>)
+      return docs.map(doc => <ListItem button divider onClick={() => onClick(doc, words)} key={doc.docId}>
+        <ListItemText primary={doc.docId} secondary={doc.title} />
+      </ListItem>)
     }
   }
 
-  return <List style={{ padding: 20 }}>
-    {getWordFiles()}
-  </List>
+  return <Paper style={{ flex: 1, height: 240, marginRight: 40, overflowY: 'scroll' }}>
+    <List >
+      {getWordFiles()}
+    </List>
+  </Paper>
 }

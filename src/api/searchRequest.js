@@ -13,6 +13,6 @@ export async function searchRequest(query) {
         const json = await response.json();
         return json;
     } catch (e) {
-
+        console.log(e);
     }
 }
