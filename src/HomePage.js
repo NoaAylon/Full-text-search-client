@@ -5,29 +5,52 @@ import { SearchInput } from './components/SearchInput';
 import AdminPannel from './components/AdminPannel';
 import { SearchContext } from './context/searchContext';
 import { SearchReducer } from './context/reducers';
+import './style.css';
+
+import { searchRequest } from './api/searchRequest';
 
 
 
 function HomePage() {
-    const [searchResult, setSearchResult] = useState([{ id: '001', title: 'this is a test' }]);
-    const [documents, setDocuments] = useState([]);
-    const [state, dispatch] = useReducer(SearchReducer);
+  const [docsList, setDocsList] = useState();
+  const [documents, setDocuments] = useState([]);
+  const [isLoading, setIsLoading] = useState();
+  const [searchInput, setSearchInput] = useState('');
 
-    const addDocument = document => { };
-    const removeDocument = document => { };
-    const searchDocuments = query => { console.log('search...') }
+  const [document, setDocument] = useState();
 
-    return <SearchContext.Provider value={{
-        searchResult,
-        addDocument,
-        removeDocument,
-        searchDocuments
-    }} >
-        <Navbar />
-        <SearchInput />
-        <AdminPannel />
-        <DocumentsList />
-    </SearchContext.Provider>
+  const [state, dispatch] = useReducer(SearchReducer);
+
+  const handleSearch = async (searchQuery) => {
+    try {
+      setIsLoading(true);
+      const result = await searchRequest(searchQuery);
+      setDocsList(result)
+    } catch (error) {
+      console.log('error');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  const addDocument = document => { };
+  const removeDocument = document => { };
+  const searchDocuments = query => { console.log('search...') }
+
+  return <SearchContext.Provider value={{
+    addDocument,
+    removeDocument,
+    searchDocuments,
+    // searchResult,
+  }} >
+    <Navbar />
+    <SearchInput handleSearch={handleSearch} />
+    <AdminPannel />
+    <DocumentsList docsList={docsList} setDocument={setDocument} />
+    <main >
+      {document}
+    </main>
+  </SearchContext.Provider>
 }
 
 export default HomePage

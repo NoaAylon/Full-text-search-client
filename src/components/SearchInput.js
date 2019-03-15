@@ -30,23 +30,29 @@ const useStyles = makeStyles({
 
 
 
-export function SearchInput() {
+export function SearchInput(props) {
   const classes = useStyles();
   const [state, dispatce] = useReducer(SearchReducer)
   const [searchInput, setSearchInput] = useState('');
 
   const handleChange = event => {
+    console.log(event.target.value)
     setSearchInput(event.target.value);
   };
 
-  const handleKeyPressed = event => {
+  const handleKeyPressed = async (event) => {
+    const { handleSearch } = props;
+
     if (event.key === 'Enter') {
       event.preventDefault();
+      await handleSearch(searchInput);
       setSearchInput("");
     }
   };
 
-  const onClickSearch = () => {
+  const onClickSearch = async () => {
+    const { handleSearch } = props;
+    await handleSearch(searchInput);
     setSearchInput("");
   }
 
