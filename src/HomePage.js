@@ -49,6 +49,7 @@ function HomePage() {
     addDocument,
     removeDocument,
     searchDocuments,
+    setDocument
   }} >
     <Navbar />
     <div className={classes.container}>

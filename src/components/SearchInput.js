@@ -1,10 +1,12 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useContext, useReducer } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
+import { SearchContext } from '../context/searchContext';
 import { SearchReducer } from '../context/reducers';
+
 
 const useStyles = makeStyles({
   root: {
@@ -31,7 +33,8 @@ const useStyles = makeStyles({
 
 export function SearchInput(props) {
   const classes = useStyles();
-  const [state, dispatce] = useReducer(SearchReducer)
+  // const [state, dispatce] = useReducer(SearchReducer)
+  const { setDocument } = useContext(SearchContext)
   const [searchInput, setSearchInput] = useState('');
 
   const handleChange = event => {
@@ -46,6 +49,7 @@ export function SearchInput(props) {
       event.preventDefault();
       await handleSearch(searchInput);
       setSearchInput("");
+      setDocument("")
     }
   };
 
@@ -53,6 +57,7 @@ export function SearchInput(props) {
     const { handleSearch } = props;
     await handleSearch(searchInput);
     setSearchInput("");
+    setDocument("")
   }
 
   return (
