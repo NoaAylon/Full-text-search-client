@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Paper } from '@material-ui/core';
+import { Paper, Divider } from '@material-ui/core';
 import { getDocument } from '../api/getDocument';
 import natural from 'natural';
 
@@ -55,6 +56,7 @@ export function DocumentsList(props) {
 
   return <Paper style={{ flex: 1, height: 240, marginRight: 40, overflowY: 'scroll' }}>
     <List >
+      <ListSubheader style={{ backgroundColor: 'white' }}>Searched Documents</ListSubheader>
       {getListItems()}
     </List>
   </Paper>
