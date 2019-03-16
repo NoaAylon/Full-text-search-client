@@ -1,4 +1,4 @@
-export async function getDocument(docId, words) {
+export async function getDocument(docId) {
     try {
         const config = {
             method: 'POST',
@@ -7,7 +7,7 @@ export async function getDocument(docId, words) {
                 'Access-Control-Origin': '*',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ docId, words })
+            body: JSON.stringify({ docId })
         }
         const response = await fetch('http://localhost:8080/getDocument', config);
         const json = await response.json();

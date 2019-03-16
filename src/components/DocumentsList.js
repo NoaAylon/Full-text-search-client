@@ -17,22 +17,32 @@ export function DocumentsList(props) {
     try {
       const { setDocument } = props;
       const { docId } = doc;
-      const result = await getDocument(docId, words);
+      const result = await getDocument(docId);
       const { body } = result;
-      const wordsWithStemWords = pushStemWords(words);
-      console.log('wordsWithStemWords', wordsWithStemWords)
-      const highlightText = body.split(" ").map(w => {
-        const token = w.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
-        const stemToken = natural.PorterStemmer.stem(token)
+      let highlightText;
 
-        if (wordsWithStemWords.includes(token)) {
-          return <span class='high-light'>{w} </span>;
-        } else if (wordsWithStemWords.includes(stemToken)) {
-          return <span class='high-light'>{w} </span>;
-        } else {
-          return <span>{w} </span>;
-        }
-      })
+      if (words[0].endsWith('*')) {
+        const wordWithOutWildCard = words[0].trim().slice(0, -1).toLowerCase();
+        highlightText = body.split(" ").map(w => {
+          return w.startsWith(wordWithOutWildCard) ?
+            <span class='high-light'>{w} </span> :
+            <span>{w} </span>
+        })
+      } else {
+        const wordsWithStemWords = pushStemWords(words);
+        highlightText = body.split(" ").map(w => {
+          const token = w.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "")
+          const stemToken = natural.PorterStemmer.stem(token)
+
+          if (wordsWithStemWords.includes(token)) {
+            return <span class='high-light'>{w} </span>;
+          } else if (wordsWithStemWords.includes(stemToken)) {
+            return <span class='high-light'>{w} </span>;
+          } else {
+            return <span>{w} </span>;
+          }
+        })
+      }
       setDocument(highlightText);
     } catch (error) {
       console.log('error');
