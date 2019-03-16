@@ -1,9 +1,13 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom';
-import HomePage from './HomePage';
+import App from './App';
 import './style.css';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<HomePage />, document.getElementById('root'));
+ReactDOM.render(<BrowserRouter>
+    <App />
+</BrowserRouter>
+    , document.getElementById('root'));
 
 serviceWorker.unregister();

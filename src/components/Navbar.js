@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -7,6 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { withRouter } from "react-router";
+import { AdminContext } from '../context/adminContext';
 
 
 const styles = theme => ({
@@ -25,11 +27,20 @@ const styles = theme => ({
   },
 });
 
-let handleClick = function () {
-}
 
 function Navbar(props) {
   const { classes } = props;
+  const { isLogin, setIsLogin } = useContext(AdminContext)
+
+  const handleClick = () => {
+    const { history } = props
+    if (!isLogin) {
+      history.push('/login');
+    }
+    setIsLogin(!isLogin);
+  }
+
+
   return (
     <div className={classes.root}>
       <AppBar position="static" >
@@ -40,15 +51,13 @@ function Navbar(props) {
           <Typography variant="h6" color="inherit" className={classes.grow}>
             Search Engine App
           </Typography>
-          <Button color="inherit" onClick={handleClick()}>Admin</Button>
+          <Button color="inherit" onClick={handleClick}>
+            {isLogin ? 'logout' : 'login'}
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
   );
 }
 
-Navbar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(Navbar);
+export default withRouter(withStyles(styles)(Navbar));

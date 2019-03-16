@@ -5,6 +5,7 @@ import Navbar from './components/Navbar.js';
 import { SearchInput } from './components/SearchInput';
 import AdminPannel from './components/AdminPannel';
 import { SearchContext } from './context/searchContext';
+import { AdminContext } from './context/adminContext';
 import { SearchReducer } from './context/reducers';
 import { searchRequest } from './api/searchRequest';
 import { Divider } from '@material-ui/core';
@@ -26,13 +27,18 @@ const useStyles = makeStyles({
   },
 });
 
-function HomePage() {
+export function HomePage() {
   const classes = useStyles();
   const [docsList, setDocsList] = useState();
   const [document, setDocument] = useState();
   const [isLoading, setIsLoading] = useState();
   const [searchInput, setSearchInput] = useState('');
   const [state, dispatch] = useReducer(SearchReducer);
+
+  useEffect(() => {
+    // Update the document title using the browser API
+    console.log('render HomePage')
+  }, []);
 
   const handleSearch = async (searchQuery) => {
     setIsLoading(true);
@@ -41,20 +47,15 @@ function HomePage() {
     setIsLoading(false);
   }
 
-  const addDocument = document => { };
-  const removeDocument = document => { };
-  const searchDocuments = query => { console.log('search...') }
+
 
   return <SearchContext.Provider value={{
-    addDocument,
-    removeDocument,
-    searchDocuments,
-    setDocument
+    setDocument,
   }} >
     <Navbar />
     <div className={classes.container}>
       <SearchInput handleSearch={handleSearch} />
-      <Divider style={{ marginTop: 15 }} />
+      <Divider style={{ margin: '15px 0' }} />
       <AdminPannel />
       <main className={classes.main}>
         <DocumentsList docsList={docsList} setDocument={setDocument} />
@@ -63,5 +64,3 @@ function HomePage() {
     </div>
   </SearchContext.Provider>
 }
-
-export default HomePage

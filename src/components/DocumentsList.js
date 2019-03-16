@@ -54,7 +54,7 @@ export function DocumentsList(props) {
     }
   }
 
-  return <Paper style={{ flex: 1, height: 240, marginRight: 40, overflowY: 'scroll' }}>
+  return <Paper style={{ flex: 1, height: 400, marginRight: 40, overflowY: 'scroll' }}>
     <List >
       <ListSubheader style={{ backgroundColor: 'white' }}>Searched Documents</ListSubheader>
       {getListItems()}
